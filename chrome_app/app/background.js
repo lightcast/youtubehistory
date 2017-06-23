@@ -47,7 +47,11 @@ function saveVideo(currentURL, saveVideoURL, getVideosURL){
     // contain the same URL. We only want one video so we make sure that we only add one video ID
     for(var i = 0; i < anchorTag.length; i++){
       if(anchorTag[i].pathname === "/watch"){
-        var obj = { url: anchorTag[i].href, videoID: urlParams("v", anchorTag[i].href) };
+        var title = '';
+        if(document.getElementById('eow-title')){
+          title = document.getElementById('eow-title');
+        }
+        var obj = { url: anchorTag[i].href, videoID: urlParams("v", anchorTag[i].href), videoTitle: title };
         // add one video ID
         if(!containsObj(obj, videoArray)){
           videoArray.push(obj);

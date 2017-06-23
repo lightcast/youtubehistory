@@ -37,11 +37,11 @@ def getVideo(param):
    return rows
 
 
-def saveVideo(url, param):
+def saveVideo(url, param, videoTitle):
   conn = mysql.connect()
   cursor = conn.cursor()
-  query = "INSERT INTO myhistory(URL, VIEW_DATE, VideoID, Date_Time)VALUES(%s, now(), %s, now())"
-  values = (url, param)
+  query = "INSERT INTO myhistory(URL, VIEW_DATE, VideoID, Date_Time, VideoTitle)VALUES(%s, now(), %s, now(), %s)"
+  values = (url, param, videoTitle)
   try:
     cursor.execute(query, values)
     conn.commit()
@@ -90,6 +90,23 @@ def youtube():
    if rows == 'none':
     rows = saveVideo(url, param)
    return  rows
+
+def getAllVideos(param):
+   conn = mysql.connect()
+   cursor = conn.cursor()
+   try:
+    cursor.execute("SELECT * FROM myhistory ")
+    results = dictfetchall(cursor)
+    history = json.dumps(results)
+   except:
+    history = 'none'
+   return history
+
+
+@app.route('/myhistory')
+def myhistory():
+    history = getAllVideos('')
+    return history # render_template('myhistory.html')
 
 if __name__ == '__main__':
     app.run(

@@ -3,3 +3,5 @@ requirements.txt
 setup.py
 wsgi.py
 bookmarklet/
+.DS_Store
+chrome_app/app/.DS_Store
